@@ -8,6 +8,4 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 
-[docker_webserver]
-000.00.00.000
-
+[docker]
