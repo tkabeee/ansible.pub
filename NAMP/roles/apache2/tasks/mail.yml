@@ -1,0 +1,7 @@
+# roles/apache2/tasks/mail.yml
+
+- name: install apache2
+  yum: name=httpd state=present
+
+- name: httpd service state
+  service: name=httpd state=started enabled=yes
