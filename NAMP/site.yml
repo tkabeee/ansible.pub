@@ -1,0 +1,7 @@
+# site.yml
+
+- hosts: all
+  sudo: yes
+  remote_user: vps-user
+  roles:
+    - apache2
