@@ -1,4 +1,4 @@
-# roles/apache2/tasks/mail.yml
+# roles/apache2/tasks/main.yml
 
 - name: install apache2
   yum: name=httpd state=present
