@@ -5,3 +5,4 @@
   remote_user: vps-user
   roles:
     - apache2
+    - nginx

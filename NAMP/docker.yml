@@ -9,3 +9,4 @@
 
   roles:
     - apache2
+    - nginx
