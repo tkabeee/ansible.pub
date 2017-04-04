@@ -1,7 +1,22 @@
 # roles/apache2/tasks/main.yml
 
-- name: install apache2
+- name: yum install httpd
   yum: name=httpd state=present
 
-- name: httpd service state
+- name: make config dir for virtualhost
+  file: path=/etc/httpd/conf.d/vhosts state=directory owner=root group=root mode=0644
+
+- name: copy original config
+  command: cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+
+- name: change port number
+  shell: cat /etc/httpd/conf/httpd.conf.org | sed -e "s/Listen 80/Listen 8080/" > /etc/httpd/conf/httpd.conf
+
+- name: insert new line
+  shell: echo "" >> /etc/httpd/conf/httpd.conf
+
+- name: add include
+  shell: echo "Include conf.d/vhosts/*.conf" >> /etc/httpd/conf/httpd.conf
+
+- name: chkconfig httpd on
   service: name=httpd state=started enabled=yes
