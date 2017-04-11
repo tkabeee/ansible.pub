@@ -8,5 +8,5 @@
   #   ping:
 
   roles:
-    - apache2
+    - apache24
     # - nginx

@@ -1,4 +1,4 @@
-# roles/apache2/tasks/main.yml
+# roles/apache24/tasks/main.yml
 
 # Available Packages
 # Name        : httpd
@@ -31,5 +31,6 @@
 - name: add include
   shell: echo "Include conf.d/vhosts/*.conf" >> /etc/httpd/conf/httpd.conf
 
+# TODO: centos7はコマンドが違う
 - name: chkconfig httpd on
   service: name=httpd state=started enabled=yes
