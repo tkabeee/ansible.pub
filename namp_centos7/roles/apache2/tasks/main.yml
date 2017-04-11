@@ -1,0 +1,35 @@
+# roles/apache2/tasks/main.yml
+
+# Available Packages
+# Name        : httpd
+# Arch        : x86_64
+# Version     : 2.4.6
+# Release     : 45.el7.centos
+# Size        : 2.7 M
+# Repo        : base/7/x86_64
+# Summary     : Apache HTTP Server
+# URL         : http://httpd.apache.org/
+# License     : ASL 2.0
+# Description : The Apache HTTP Server is a powerful, efficient, and extensible
+#             : web server.
+
+- name: yum install httpd
+  yum: name=httpd state=present
+
+- name: make config dir for virtualhost
+  file: path=/etc/httpd/conf.d/vhosts state=directory owner=root group=root mode=0644
+
+- name: copy original config
+  command: cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+
+- name: change port number
+  shell: cat /etc/httpd/conf/httpd.conf.org | sed -e "s/Listen 80/Listen 8080/" > /etc/httpd/conf/httpd.conf
+
+- name: insert new line
+  shell: echo "" >> /etc/httpd/conf/httpd.conf
+
+- name: add include
+  shell: echo "Include conf.d/vhosts/*.conf" >> /etc/httpd/conf/httpd.conf
+
+- name: chkconfig httpd on
+  service: name=httpd state=started enabled=yes

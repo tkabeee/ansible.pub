@@ -1,0 +1,12 @@
+# docker.yml
+
+- hosts: containers
+  connection: docker
+
+  # tasks:
+  # - name: ping
+  #   ping:
+
+  roles:
+    - apache2
+    # - nginx
