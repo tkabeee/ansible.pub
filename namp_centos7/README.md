@@ -18,3 +18,9 @@ ansible-playbook --check -i hosts/docker docker.yml
 ansible-playbook -i hosts/docker -l ansible-namp-centos7 --step docker.yml
 ansible-playbook -i hosts/docker -l ansible-namp-centos7 --start-at='httpd start' --step docker.yml
 ```
+
+タグ指定でタスクを実行
+
+```
+ansible-playbook -i hosts/docker -l ansible-namp-centos7 --tags 'php70' docker.yml
+```
