@@ -31,6 +31,8 @@
 - name: add include
   shell: echo "Include conf.d/vhosts/*.conf" >> /etc/httpd/conf/httpd.conf
 
-# TODO: centos7はコマンドが違う
-- name: chkconfig httpd on
+- name: put virtualhost.conf
+  template: src=roles/apache24/templates/example.com.conf dest=/etc/httpd/conf.d/vhosts/example.com.conf
+
+- name: httpd start
   service: name=httpd state=started enabled=yes
