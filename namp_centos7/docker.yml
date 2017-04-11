@@ -10,3 +10,4 @@
   roles:
     - nginx
     - apache24
+    - php70
