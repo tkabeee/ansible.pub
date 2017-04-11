@@ -1,0 +1,16 @@
+# roles/nginx/tasks/main.yml
+
+- name: add repository
+  template: src=roles/nginx/templates/nginx.repo dest=/etc/yum.repos.d/nginx.repo
+
+- name: yum install nginx
+  yum: name=nginx state=present
+
+- name: service nginx start
+  service: name=nginx state=started enabled=yes
+
+- name: put reverse_proxy.conf
+  template: src=roles/nginx/templates/reverse_proxy.conf dest=/etc/nginx/conf.d/reverse_proxy.conf
+
+- name: service nginx restart
+  service: name=nginx state=restarted enabled=yes
