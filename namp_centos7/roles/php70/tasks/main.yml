@@ -1,0 +1,41 @@
+# roles/php70/tasks/main.yml
+
+# Available Packages
+# Name        : php
+# Arch        : x86_64
+# Version     : 5.4.16
+# Release     : 42.el7
+# Size        : 1.4 M
+# Repo        : base/7/x86_64
+# Summary     : PHP scripting language for creating dynamic web sites
+# URL         : http://www.php.net/
+# License     : PHP and Zend and BSD
+# Description : PHP is an HTML-embedded scripting language. PHP attempts to make it
+#             : easy for developers to write dynamically generated web pages. PHP also
+#             : offers built-in database integration for several commercial and
+#             : non-commercial database management systems, so writing a
+#             : database-enabled webpage with PHP is fairly simple. The most common
+#             : use of PHP coding is probably as a replacement for CGI scripts.
+#             :
+#             : The php package contains the module (often referred to as mod_php)
+#             : which adds support for the PHP language to Apache HTTP Server.
+
+- name: epel-release
+  yum: name=epel-release state=installed
+  tags: php70
+
+- name: add repository remi-repo
+  command: rpm -ih http://rpms.famillecollet.com/enterprise/remi-release-7.rpm creates=/etc/yum.repos.d/remi.repo
+  tags: php70
+
+- name: yum install php70
+  yum: name={{ item }} enablerepo=epel,remi,remi-repo-php70 state=installed
+  with_items:
+    - php70
+    - php70-php-mcrypt
+    - php70-php-mbstring
+    - php70-php-fpm
+    - php70-php-gd
+    - php70-php-xml
+    - php70-php-pdo
+  tags: php70
