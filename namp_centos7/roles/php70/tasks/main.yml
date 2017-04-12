@@ -37,3 +37,7 @@
     - php70-php-pdo
     - php70-php-xml
   tags: php70
+
+- name: path environment variable
+  command: source /opt/remi/php70/enable
+  tags: php70
