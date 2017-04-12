@@ -24,10 +24,16 @@
   yum: name={{ item }} enablerepo=epel,remi,remi-php70 state=installed
   with_items:
     - php70
-    - php70-php-mcrypt
-    - php70-php-mbstring
+    - php70-php-cli
+    - php70-php-common
     - php70-php-fpm
     - php70-php-gd
-    - php70-php-xml
+    - php70-php-json
+    - php70-php-mbstring
+    - php70-php-mcrypt
+    - php70-php-mysqld
+    - php70-php-opcache
+    - php70-php-pear
     - php70-php-pdo
+    - php70-php-xml
   tags: php70
