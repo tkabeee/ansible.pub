@@ -1,0 +1,21 @@
+# roles/mysql57/tasks/main.yml
+# https://github.com/geerlingguy/ansible-role-mysql
+
+- name: add repository
+  shell: rpm -ih http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+  args:
+    creates: /etc/yum.repos.d/mysql-community.repo
+  tags: mysql57
+
+- name: yum install mysql-community-server
+  yum:
+    name: mysql-community-server
+    state: present
+  tags: mysql57
+
+- name: start server
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+  tags: mysql57

@@ -1,0 +1,52 @@
+# roles/apache24/tasks/main.yml
+
+# Available Packages
+# Name        : httpd
+# Arch        : x86_64
+# Version     : 2.4.6
+# Release     : 45.el7.centos
+# Size        : 2.7 M
+# Repo        : base/7/x86_64
+# Summary     : Apache HTTP Server
+# URL         : http://httpd.apache.org/
+# License     : ASL 2.0
+# Description : The Apache HTTP Server is a powerful, efficient, and extensible
+#             : web server.
+
+- name: yum install httpd
+  yum: name=httpd state=present
+  tags: apache24
+
+- name: make config dir for virtualhost
+  file: path=/etc/httpd/conf.d/vhosts state=directory owner=root group=root mode=0644
+  tags: apache24
+
+- name: check original config
+  stat: path=/etc/httpd/conf/httpd.conf.org
+  register: httpd_conf_org
+  tags: apache24
+
+- name: copy originl config
+  shell: cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+  when: httpd_conf_org.stat.exists == false
+  tags: apache24
+
+- name: change port number
+  shell: cat /etc/httpd/conf/httpd.conf.org | sed -e "s/Listen 80/Listen 8080/" > /etc/httpd/conf/httpd.conf
+  tags: apache24
+
+- name: insert new line
+  shell: echo "" >> /etc/httpd/conf/httpd.conf
+  tags: apache24
+
+- name: add include
+  shell: echo "Include conf.d/vhosts/*.conf" >> /etc/httpd/conf/httpd.conf
+  tags: apache24
+
+- name: put virtualhost.conf
+  template: src=roles/apache24/templates/example.com.conf dest=/etc/httpd/conf.d/vhosts/example.com.conf
+  tags: apache24
+
+- name: httpd start
+  service: name=httpd state=started enabled=yes
+  tags: apache24
