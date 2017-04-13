@@ -13,7 +13,7 @@
 #             : that install PHP 7.0 language.
 
 - name: epel-release
-  yum: name=epel-release state=installed
+  yum: name=epel-release state=present
   tags: php70
 
 - name: add repository remi-repo
@@ -21,17 +21,15 @@
   tags: php70
 
 - name: yum install php70
-  yum: name={{ item }} enablerepo=epel,remi,remi-php70 state=installed
+  yum: name={{ item }} enablerepo=epel,remi,remi-php70 state=present
   with_items:
     - php70
     - php70-php-cli
     - php70-php-common
     - php70-php-fpm
     - php70-php-gd
-    - php70-php-json
     - php70-php-mbstring
     - php70-php-mcrypt
-    - php70-php-mysqld
     - php70-php-opcache
     - php70-php-pear
     - php70-php-pdo
@@ -39,5 +37,6 @@
   tags: php70
 
 - name: path environment variable
-  command: source /opt/remi/php70/enable
+  become: yes
+  shell: source /opt/remi/php70/enable
   tags: php70
