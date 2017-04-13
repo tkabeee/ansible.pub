@@ -1,0 +1,8 @@
+Host *
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+
+Host prod
+  HostName xx.xxx.xx.xxx
+  User
+  IdentityFile ~/.ssh/

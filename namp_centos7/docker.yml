@@ -1,0 +1,14 @@
+# docker.yml
+
+- hosts: containers
+  connection: docker
+
+  # tasks:
+  # - name: ping
+  #   ping:
+
+  roles:
+    - nginx
+    - apache24
+    - mysql57
+    - php70

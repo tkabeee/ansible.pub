@@ -1,0 +1,47 @@
+# roles/php70/tasks/main.yml
+
+# Available Packages
+# Name        : php70
+# Arch        : x86_64
+# Version     : 1.0
+# Release     : 5.el7.remi
+# Size        : 2.9 k
+# Repo        : remi-safe
+# Summary     : Package that installs PHP 7.0
+# License     : GPLv2+
+# Description : This is the main package for php70 Software Collection,
+#             : that install PHP 7.0 language.
+
+- name: epel-release
+  yum: name=epel-release state=present
+  tags: php70
+
+- name: add repository remi-repo
+  command: rpm -ih http://rpms.famillecollet.com/enterprise/remi-release-7.rpm creates=/etc/yum.repos.d/remi.repo
+  tags: php70
+
+- name: yum install php70
+  yum: name={{ item }} enablerepo=epel,remi,remi-php70 state=present
+  with_items:
+    - php70
+    - php70-php-cli
+    - php70-php-common
+    - php70-php-fpm
+    - php70-php-gd
+    - php70-php-mbstring
+    - php70-php-mcrypt
+    - php70-php-opcache
+    - php70-php-pear
+    - php70-php-pdo
+    - php70-php-xml
+  # failed_when: false
+  # changed_when: false
+  # register: result
+  tags: php70
+
+# - debug: var=result
+#   tags: php70
+
+- name: create environment variable
+  file: src=/opt/remi/php70/enable dest=/etc/profile.d/php70.sh state=link
+  tags: php70
