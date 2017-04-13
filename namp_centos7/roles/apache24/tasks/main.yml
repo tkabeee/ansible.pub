@@ -21,8 +21,14 @@
   file: path=/etc/httpd/conf.d/vhosts state=directory owner=root group=root mode=0644
   tags: apache24
 
-- name: copy original config
-  command: cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+- name: check original config
+  stat: path=/etc/httpd/conf/httpd.conf.org
+  register: httpd_conf_org
+  tags: apache24
+
+- name: copy originl config
+  shell: cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+  when: httpd_conf_org.stat.exists == false
   tags: apache24
 
 - name: change port number
