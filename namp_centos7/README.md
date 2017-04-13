@@ -23,4 +23,5 @@ ansible-playbook -i hosts/docker -l ansible-namp-centos7 --start-at='httpd start
 
 ```
 ansible-playbook -i hosts/docker -l ansible-namp-centos7 --tags 'php70' docker.yml
+ansible-playbook -i hosts/docker -l ansible-namp-centos7 --tags 'mysql57' docker.yml
 ```

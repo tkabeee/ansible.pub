@@ -10,4 +10,5 @@
   roles:
     - nginx
     - apache24
+    - mysql57
     - php70
