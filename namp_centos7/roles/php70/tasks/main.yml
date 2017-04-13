@@ -34,9 +34,14 @@
     - php70-php-pear
     - php70-php-pdo
     - php70-php-xml
+  # failed_when: false
+  # changed_when: false
+  # register: result
   tags: php70
 
-- name: path environment variable
-  become: yes
-  shell: source /opt/remi/php70/enable
+# - debug: var=result
+#   tags: php70
+
+- name: create environment variable
+  file: src=/opt/remi/php70/enable dest=/etc/profile.d/php70.sh state=link
   tags: php70
