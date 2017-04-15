@@ -30,8 +30,11 @@
 
 - name: yum install php70
   yum:
-    name: { item }
-    enablerepo: epel,remi,remi-php70
+    list: { item }
+    enablerepo:
+      - epel
+      - remi
+      - remi-php70
     state: present
   with_items:
     - php70
