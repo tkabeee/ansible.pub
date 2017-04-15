@@ -7,10 +7,17 @@
     creates: /etc/yum.repos.d/mysql-community.repo
   tags: mysql57
 
+- name: check repository exists
+  stat:
+    path: /etc/yum.repos.d/mysql-community.repo
+  register: mysql_repo
+  tags: mysql57
+
 - name: yum install mysql-community-server
   yum:
     name: mysql-community-server
     state: present
+  when: mysql_repo.stat.exists == true
   tags: mysql57
 
 - name: start server
