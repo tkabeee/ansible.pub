@@ -19,8 +19,17 @@
   template: src=roles/nginx/templates/nginx.repo dest=/etc/yum.repos.d/nginx.repo
   tags: nginx
 
+- name: check repository exists
+  stat:
+    path: /etc/yum.repos.d/nginx.repo
+  register: nginx_repo
+  tags: nginx
+
 - name: yum install nginx
-  yum: name=nginx state=present
+  yum:
+    name: nginx
+    state: present
+  when: nginx_repo.stat.exists == true
   tags: nginx
 
 - name: service nginx start
