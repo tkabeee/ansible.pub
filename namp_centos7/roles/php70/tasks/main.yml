@@ -17,11 +17,22 @@
   tags: php70
 
 - name: add repository remi-repo
-  command: rpm -ih http://rpms.famillecollet.com/enterprise/remi-release-7.rpm creates=/etc/yum.repos.d/remi.repo
+  shell: rpm -ih http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  args:
+    creates: /etc/yum.repos.d/remi.repo
+  tags: php70
+
+- name: check repository exists
+  stat:
+    path: /etc/yum.repos.d/remi.repo
+  register: php_repo
   tags: php70
 
 - name: yum install php70
-  yum: name={{ item }} enablerepo=epel,remi,remi-php70 state=present
+  yum:
+    name: { item }
+    enablerepo: epel,remi,remi-php70
+    state: present
   with_items:
     - php70
     - php70-php-cli
@@ -30,18 +41,21 @@
     - php70-php-gd
     - php70-php-mbstring
     - php70-php-mcrypt
+    - php70-php-mysqlnd
     - php70-php-opcache
     - php70-php-pear
     - php70-php-pdo
     - php70-php-xml
-  # failed_when: false
-  # changed_when: false
-  # register: result
+  when: php_repo.stat.exists == true
   tags: php70
 
-# - debug: var=result
-#   tags: php70
+- name: check enable exists
+  stat:
+    path: src=/opt/remi/php70/enable
+  register: php_enable
+  tags: php70
 
 - name: create environment variable
   file: src=/opt/remi/php70/enable dest=/etc/profile.d/php70.sh state=link
+  when: php_enable.stat.exists == true
   tags: php70
